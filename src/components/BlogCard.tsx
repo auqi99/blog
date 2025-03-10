@@ -24,15 +24,20 @@ const BlogCard: FC<BlogCardProps> = ({
   thumbnail,
   slug,
 }) => {
+  console.log("Thumbnail received:", thumbnail); // Debugging
   return (
     <Link href={`/${slug}`}>
       <Card>
         <CardBody>
           <Image
-            src={`https:${thumbnail}`}
-            alt="thumbnail blog"
-            borderRadius="lg"
+            src={thumbnail ? `https:${thumbnail}` : "/default-thumbnail.jpg"}
+            alt={title}
+            objectFit="cover"
+            borderRadius="md"
+            w="100%"
+            maxH="200px"
           />
+
           <Stack mt="6" spacing="3">
             <Heading size="md">{title}</Heading>
             <Text noOfLines={3}>{description}</Text>
