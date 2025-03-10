@@ -10,6 +10,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Metadata } from "next";
+import Link from "next/link";
 
 // Definisikan tipe data untuk blog
 interface Blog {
@@ -42,13 +43,19 @@ export const metadata: Metadata = {
 export default async function Home({ searchParams }: HomeProps) {
   let blogs: BlogResponse = { data: [], meta: { total: 0, limit: 0 } };
 
+  // Handle searchParams.page jika berupa array
+  const page = Array.isArray(searchParams.page)
+    ? searchParams.page[0]
+    : searchParams.page;
+
   try {
-    blogs = await getEntries(Number(searchParams.page) || 1);
-  } catch (error) {}
+    blogs = await getEntries(Number(page) || 1);
+  } catch (error) {
+    console.error("Failed to fetch blogs:", error);
+  }
 
   return (
-    <main>\
-      
+    <main>
       {/* METADATA */}
       <Container maxW="5xl">
         {/* JUMBOTRON */}
