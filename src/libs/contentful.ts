@@ -1,5 +1,13 @@
 import { createClient } from "contentful";
 
+console.log("DEBUG ENVIRONMENT VARIABLES:");
+console.log("SPACE ID:", process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID);
+console.log("ENVIRONMENT:", process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT);
+console.log(
+  "ACCESS TOKEN:",
+  process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN ? "EXISTS" : "MISSING"
+);
+
 // Inisialisasi Contentful client
 const client = createClient({
   space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
@@ -7,14 +15,21 @@ const client = createClient({
   accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN!,
 });
 
+console.log("Client Created:", client);
+
 export const getEntries = async (page: number = 1) => {
   try {
     const limit = 7;
     const skip = (page - 1) * limit;
+
+    console.log("Fetching Entries with:", { limit, skip });
+
     const response = await client.getEntries({
       limit,
       skip,
     });
+
+    console.log("Response received:", response);
 
     const blogs = response.items.map((blog: any) => ({
       title: blog.fields.title,
