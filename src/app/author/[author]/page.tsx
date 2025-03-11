@@ -7,24 +7,30 @@ interface PageProps {
 }
 
 // Generate metadata untuk SEO
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  return {
-    title: `Author: ${params.author}`,
-    description: `Profile page for author ${params.author}`,
-  };
-}
 
-// Komponen halaman dinamis
-export default function AuthorPage({ params }: PageProps) {
+// export const generateMetadata = async ({params}:{params:Promise<{author:string}>}) => {
+//   const author = (await params).author
+//   return {
+//     title: author,
+//     description: `Profile page for author ${author}`,
+
+//   }
+// }
+
+const AuthorPage = async ({
+  params,
+}: {
+  params: Promise<{ author: string }>;
+}) => {
+  const author = (await params).author;
+
   return (
     <Container maxW="4xl" py={10} centerContent>
       <Box textAlign="center" maxW="3xl">
         {/* Avatar */}
         <Avatar
           size="2xl"
-          name={params.author}
+          name={author}
           src="/Aulia Rifqi.jpg"
           border="4px solid #3182CE"
           boxShadow="lg"
@@ -32,7 +38,7 @@ export default function AuthorPage({ params }: PageProps) {
 
         {/* Nama Author */}
         <Text fontSize="3xl" fontWeight="bold" mt={4} color="gray.800">
-          {params.author}
+          {author}
         </Text>
 
         {/* Deskripsi */}
@@ -60,4 +66,7 @@ export default function AuthorPage({ params }: PageProps) {
       </Box>
     </Container>
   );
-}
+};
+
+
+export default AuthorPage;
